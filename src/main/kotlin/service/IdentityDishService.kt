@@ -1,13 +1,12 @@
 package org.burgas.service
 
-import io.ktor.http.HttpStatusCode
-import io.ktor.server.application.Application
-import io.ktor.server.auth.authenticate
-import io.ktor.server.request.receive
-import io.ktor.server.response.respond
-import io.ktor.server.routing.post
-import io.ktor.server.routing.route
-import io.ktor.server.routing.routing
+import io.ktor.http.*
+import io.ktor.server.application.*
+import io.ktor.server.auth.*
+import io.ktor.server.request.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
+import io.ktor.util.AttributeKey
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
@@ -68,7 +67,10 @@ class IdentityDishService {
 
             if (identityDish != null) {
                 IdentityDishTable.update({ (IdentityDishTable.identity eq identityEntity.id) and (IdentityDishTable.dish eq dishEntity.id) })
-                { updateStatement -> updateStatement[IdentityDishTable.amount] = identityDish[IdentityDishTable.amount] + identityDishRequest.amount }
+                { updateStatement ->
+                    updateStatement[IdentityDishTable.amount] =
+                        identityDish[IdentityDishTable.amount] + identityDishRequest.amount
+                }
 
             } else {
                 IdentityDishTable.insert { insertStatement ->
@@ -108,7 +110,10 @@ class IdentityDishService {
 
                 } else {
                     IdentityDishTable.update({ (IdentityDishTable.identity eq identityEntity.id) and (IdentityDishTable.dish eq dishEntity.id) })
-                    { updateStatement -> updateStatement[IdentityDishTable.amount] = identityDish[IdentityDishTable.amount] - identityDishRequest.amount }
+                    { updateStatement ->
+                        updateStatement[IdentityDishTable.amount] =
+                            identityDish[IdentityDishTable.amount] - identityDishRequest.amount
+                    }
                 }
 
             } else {
@@ -124,18 +129,45 @@ fun Application.configureIdentityDishRoutes() {
 
     routing {
 
+        @Suppress("DEPRECATION")
+        intercept(ApplicationCallPipeline.Call) {
+            if (
+                call.request.path().equals("/api/v1/identity-dish/add", false) ||
+                call.request.path().equals("/api/v1/identity-dish/remove", false)
+            ) {
+                val principal = call.principal<UserPasswordCredential>()
+                    ?: throw IllegalArgumentException("Principal not authenticated")
+                val identityDishRequest = call.receive(IdentityDishRequest::class)
+                val identityEntity = transaction(db = DatabaseFactory.postgres, readOnly = true) {
+                    IdentityEntity.findById(identityDishRequest.identityId)
+                        ?: throw IllegalArgumentException("Identity not authenticated")
+                }
+
+                if (identityEntity.email == principal.name) {
+                    call.attributes[AttributeKey("identityDishRequest")] = identityDishRequest
+                    proceed()
+
+                } else {
+                    throw IllegalArgumentException("Identity not authorized")
+                }
+            }
+            proceed()
+        }
+
         route("/api/v1/identity-dish") {
 
             authenticate("basic-auth-all") {
 
                 post("/add") {
-                    val identityDishRequest = call.receive(IdentityDishRequest::class)
+                    val identityDishRequest = call
+                        .attributes[AttributeKey<IdentityDishRequest>("identityDishRequest")]
                     identityDishService.add(identityDishRequest)
                     call.respond(HttpStatusCode.OK)
                 }
 
                 post("/remove") {
-                    val identityDishRequest = call.receive(IdentityDishRequest::class)
+                    val identityDishRequest = call
+                        .attributes[AttributeKey<IdentityDishRequest>("identityDishRequest")]
                     identityDishService.remove(identityDishRequest)
                     call.respond(HttpStatusCode.OK)
                 }
