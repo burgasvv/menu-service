@@ -1,0 +1,19 @@
+
+services:
+
+  postgres:
+    image: postgres:latest
+    container_name: menu_service_postgres
+    restart: unless-stopped
+    ports:
+      - "6000:5432"
+    environment:
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: menu_service_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+  redis_data:

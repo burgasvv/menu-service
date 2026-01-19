@@ -1,0 +1,285 @@
+
+
+
+### Security Requests
+
+
+
+###
+GET /api/v1/security/csrf-token
+Host: localhost:9000
+Accept: application/json
+
+
+
+### Identity Requests
+
+
+
+###
+GET /api/v1/identities
+Host: localhost:9000
+Accept: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+
+###
+GET /api/v1/identities/by-id?identityId=0b0a1bf5-a806-4d66-885b-0d6255a2746c
+Host: localhost:9000
+Accept: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+
+###
+POST /api/v1/identities/create
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Origin: http://localhost:9000
+X-Csrf-Token: dd47939d-f665-4113-9d4e-d43cd9060d3a
+
+{
+    "authority": "ADMIN",
+    "username": "burgasvv",
+    "password": "burgasvv",
+    "email": "burgasvv@gmail.com",
+    "enabled": true,
+    "firstname": "Бургас",
+    "lastname": "Вячеслав",
+    "patronymic": "Васильевич"
+}
+
+###
+POST /api/v1/identities/create
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Origin: http://localhost:9000
+X-Csrf-Token: fe3edf80-234b-4771-8671-7db8d660ae6d
+
+{
+    "authority": "USER",
+    "username": "zagor",
+    "password": "zagor",
+    "email": "zagor@gmail.com",
+    "enabled": true,
+    "firstname": "Загорулько",
+    "lastname": "Борис",
+    "patronymic": "Юрьевич"
+}
+
+###
+PUT /api/v1/identities/update
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Origin: http://localhost:9000
+X-Csrf-Token: fe3edf80-234b-4771-8671-7db8d660ae6d
+Authorization: Basic burgasvv@gmail.com burgasvv
+
+{
+    "id": "0b0a1bf5-a806-4d66-885b-0d6255a2746c",
+    "username": "burgasvv"
+}
+
+###
+DELETE /api/v1/identities/delete?identityId=0b0a1bf5-a806-4d66-885b-0d6255a2746c
+Host: localhost:9000
+Accept: application/json
+Origin: http://localhost:9000
+X-Csrf-Token: dd47939d-f665-4113-9d4e-d43cd9060d3a
+Authorization: Basic burgasvv@gmail.com burgasvv
+
+###
+PUT /api/v1/identities/change-password
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Origin: http://localhost:9000
+X-Csrf-Token: b448c961-ad06-4807-84cb-d522be16d9fc
+Authorization: Basic burgasvv@gmail.com burgasvv111
+
+{
+    "id": "0b0a1bf5-a806-4d66-885b-0d6255a2746c",
+    "password": "burgasvv"
+}
+
+
+
+### Restaurant Requests
+
+
+
+###
+GET /api/v1/restaurants
+Host: localhost:9000
+Accept: application/json
+
+###
+GET /api/v1/restaurants/by-id?restaurantId=16d830fc-dbb2-4943-b533-6f4d25e91922
+Host: localhost:9000
+Accept: application/json
+
+###
+POST /api/v1/restaurants/create
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Origin: http://localhost:9000
+X-Csrf-Token: ed46e121-05bb-4d0e-a65e-5588a70a1ea1
+Authorization: Basic burgasvv@gmail.com burgasvv
+
+{
+    "name": "Шашлыкоф",
+    "description": "Описание ресторана Шашлыкоф"
+}
+
+###
+PUT /api/v1/restaurants/update
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Origin: http://localhost:9000
+X-Csrf-Token: 6db4345a-5d4f-42ca-a0e9-a296a5bf7b90
+Authorization: Basic burgasvv@gmail.com burgasvv
+
+{
+    "id": "ef0e3916-cfc2-4d5f-a20e-e88c2e57968f",
+    "name": "Шашлыкoff"
+}
+
+###
+DELETE /api/v1/restaurants/delete?restaurantId=ef0e3916-cfc2-4d5f-a20e-e88c2e57968f
+Host: localhost:9000
+Accept: application/json
+Origin: http://localhost:9000
+X-Csrf-Token: 6db4345a-5d4f-42ca-a0e9-a296a5bf7b90
+Authorization: Basic burgasvv@gmail.com burgasvv
+
+
+
+### Menu Requests
+
+
+
+###
+GET /api/v1/menu
+Host: localhost:9000
+Accept: application/json
+
+###
+GET /api/v1/menu/by-id?menuId=5d732ec3-0ca3-49a6-acf1-26d5cf6277b7
+Host: localhost:9000
+Accept: application/json
+
+###
+POST /api/v1/menu/create
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Origin: http://localhost:9000
+X-Csrf-Token: ed46e121-05bb-4d0e-a65e-5588a70a1ea1
+Authorization: Basic burgasvv@gmail.com burgasvv
+
+{
+    "name": "Карт-бланш",
+    "description": "Описание меню Карт-бланш",
+    "restaurantId": "16d830fc-dbb2-4943-b533-6f4d25e91922"
+}
+
+###
+PUT /api/v1/menu/update
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Origin: http://localhost:9000
+X-Csrf-Token: ed46e121-05bb-4d0e-a65e-5588a70a1ea1
+Authorization: Basic burgasvv@gmail.com burgasvv
+
+{
+    "id": "5d732ec3-0ca3-49a6-acf1-26d5cf6277b7",
+    "name": "Карт-бланш Рояль",
+    "description": "Описание меню Карт-бланш Рояль"
+}
+
+
+
+### Dish Requests
+
+
+
+###
+GET /api/v1/dishes
+Host: localhost:9000
+Accept: application/json
+
+###
+GET /api/v1/dishes/by-id?dishId=39412203-bb48-4094-b312-7f9fee997115
+Host: localhost:9000
+Accept: application/json
+
+###
+POST /api/v1/dishes/create
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Origin: http://localhost:9000
+X-Csrf-Token: ed46e121-05bb-4d0e-a65e-5588a70a1ea1
+Authorization: Basic burgasvv@gmail.com burgasvv
+
+{
+    "name": "Курица в соусе с сыром Бри",
+    "about": "Описание блюда Курица в соусе с сыром Бри",
+    "price": 2300.30,
+    "menuId": "5d732ec3-0ca3-49a6-acf1-26d5cf6277b7"
+}
+
+###
+POST /api/v1/dishes/create
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Origin: http://localhost:9000
+X-Csrf-Token: ed46e121-05bb-4d0e-a65e-5588a70a1ea1
+Authorization: Basic burgasvv@gmail.com burgasvv
+
+{
+    "name": "Жареная картошка с беконом",
+    "about": "Описание блюда КЖареная картошка с беконом",
+    "price": 1800.60,
+    "menuId": "5d732ec3-0ca3-49a6-acf1-26d5cf6277b7"
+}
+
+
+
+### Identity Dish Requests
+
+
+
+###
+POST /api/v1/identity-dish/add
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Origin: http://localhost:9000
+X-Csrf-Token: bdc0fc2c-567a-41bc-889e-7854c16f669f
+Authorization: Basic burgasvv@gmail.com burgasvv
+
+{
+    "identityId": "0b0a1bf5-a806-4d66-885b-0d6255a2746c",
+    "dishId": "39412203-bb48-4094-b312-7f9fee997115",
+    "amount": 2
+}
+
+###
+POST /api/v1/identity-dish/remove
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Origin: http://localhost:9000
+X-Csrf-Token: bdc0fc2c-567a-41bc-889e-7854c16f669f
+Authorization: Basic burgasvv@gmail.com burgasvv
+
+{
+    "identityId": "0b0a1bf5-a806-4d66-885b-0d6255a2746c",
+    "dishId": "39412203-bb48-4094-b312-7f9fee997115",
+    "amount": 3
+}
