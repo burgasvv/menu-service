@@ -12,6 +12,7 @@
 + Authentication Basic
 + Routing
 + Serialization
++ Kafka
 
 ## Описание
     API для организации работы ресторанного меню и пользователей

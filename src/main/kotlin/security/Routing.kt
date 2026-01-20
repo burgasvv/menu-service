@@ -1,4 +1,4 @@
-package org.burgas.plugin
+package org.burgas.security
 
 import io.ktor.http.*
 import io.ktor.server.application.*

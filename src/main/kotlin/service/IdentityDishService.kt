@@ -11,7 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
 import org.burgas.database.DatabaseFactory
-import org.burgas.plugin.UUIDSerializer
+import org.burgas.serialization.UUIDSerializer
 import org.jetbrains.exposed.v1.core.*
 import org.jetbrains.exposed.v1.core.vendors.ForUpdateOption
 import org.jetbrains.exposed.v1.jdbc.deleteWhere

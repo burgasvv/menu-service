@@ -10,8 +10,10 @@ import io.ktor.util.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
+import org.apache.kafka.clients.producer.ProducerRecord
 import org.burgas.database.DatabaseFactory
-import org.burgas.plugin.UUIDSerializer
+import org.burgas.kafka.KafkaProducer
+import org.burgas.serialization.UUIDSerializer
 import org.jetbrains.exposed.v1.core.dao.id.EntityID
 import org.jetbrains.exposed.v1.core.dao.id.UUIDTable
 import org.jetbrains.exposed.v1.dao.EntityClass
@@ -138,6 +140,8 @@ fun IdentityEntity.update(identityRequest: IdentityRequest) {
 
 class IdentityService {
 
+    val kafkaProducer = KafkaProducer()
+
     suspend fun findAll() = withContext(Dispatchers.Default) {
         transaction(db = DatabaseFactory.postgres, readOnly = true) {
             IdentityEntity.all().map { identityEntity -> identityEntity.toIdentityShortResponse() }
@@ -145,11 +149,14 @@ class IdentityService {
     }
 
     suspend fun findById(identityId: UUID) = withContext(Dispatchers.Default) {
-        transaction(db = DatabaseFactory.postgres, readOnly = true) {
+        val identityFullResponse = transaction(db = DatabaseFactory.postgres, readOnly = true) {
             (IdentityEntity.findById(identityId) ?: throw IllegalArgumentException("Identity not found"))
                 .load(IdentityEntity::dishes)
                 .toIdentityFullResponse()
         }
+        val producer = kafkaProducer.identityFullResponseKafkaProducer()
+        producer.send(ProducerRecord("identity-kafka-topic", identityFullResponse))
+        identityFullResponse
     }
 
     suspend fun create(identityRequest: IdentityRequest) = withContext(Dispatchers.Default) {
