@@ -42,6 +42,7 @@ dependencies {
     implementation("io.ktor:ktor-server-csrf:3.3.2")
     implementation("io.ktor:ktor-server-cors:3.3.2")
     implementation("org.apache.kafka:kafka-clients:4.1.1")
+    implementation("io.ktor:ktor-client-content-negotiation:3.3.2")
     testImplementation("io.ktor:ktor-server-test-host")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
 }

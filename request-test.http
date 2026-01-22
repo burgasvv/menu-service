@@ -128,8 +128,8 @@ X-Csrf-Token: ed46e121-05bb-4d0e-a65e-5588a70a1ea1
 Authorization: Basic burgasvv@gmail.com burgasvv
 
 {
-    "name": "Шашлыкоф",
-    "description": "Описание ресторана Шашлыкоф"
+    "name": "Test",
+    "description": "Описание ресторана Test"
 }
 
 ###
