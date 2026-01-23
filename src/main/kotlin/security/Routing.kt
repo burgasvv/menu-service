@@ -59,8 +59,7 @@ fun Application.configureRouting() {
         allowMethod(HttpMethod.Delete)
         allowMethod(HttpMethod.Patch)
         allowHeader(HttpHeaders.Authorization)
-        allowOrigins { string -> string.equals("http://localhost:4200", false) }
-        allowHost("localhost")
+        allowHost("localhost:4200", listOf("http", "https"))
     }
 
     routing {
