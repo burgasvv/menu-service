@@ -16,6 +16,11 @@ plugins {
 group = "org.burgas"
 version = "0.0.1"
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_24
+    targetCompatibility = JavaVersion.VERSION_24
+}
+
 application {
     mainClass = "io.ktor.server.netty.EngineMain"
 }

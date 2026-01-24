@@ -7,6 +7,9 @@ ktor:
     port: 9000
   postgres:
     driver: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:6000/menu_service_db
+    url: jdbc:postgresql://postgres:5432/menu_service_db
     user: postgres
     password: postgres
+  kafka:
+    bootstrap:
+      servers: kafka:9092
